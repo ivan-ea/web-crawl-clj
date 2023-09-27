@@ -8,7 +8,7 @@
   - Table rows (tr) of class `athing` have the *title* and the *rank*
   - Table cells (td) of class `subtext` have the *points* and he *number of comments*"
   (:require
-    [babashka.fs :as fs] ; filesystem utilities
+    [clojure.string :as str]
     [net.cgrand.enlive-html :as html] ; html templating library for clojure
     [clojure.inspector :as inspector]))
 
@@ -28,7 +28,22 @@
   [athing-html-parsed]
   (first (content-1st (html/select athing-html-parsed [:td.title :span.rank]))))
 
-; points and comments are slightly more complicated, since there can be new-entries without them (ads)
+; Points and comments are slightly more complicated, since there can be news-entries without them (ads)
+
+(defn get-int
+  "Auxiliary function.
+  Keep the integer number from a string of the form 'number[space]word'.
+  Robust against &nsbp; (non-breaking space)"
+  [s]
+  (Integer/parseInt (first (str/split s #"\p{Z}"))))
+
+(defn get-points
+  "Gets the points (as an int) from a parsed html 'subtext' element"
+  [subtext-html-parsed]
+  (let [points-str
+        (first (content-1st (html/select subtext-html-parsed [:td.subtext :span.subline :span.score])))]
+    (if (nil? points-str) 0
+                          (get-int points-str))))
 
 (defn html-entry-2-record
   "Selects the relevant information from the parsed html of 1 news entry. Generates a news record"

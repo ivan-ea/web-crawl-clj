@@ -28,3 +28,13 @@
 (deftest get-rank-test
   (is (= "1." (get-rank (first athings))))
   (is (= "24." (get-rank (nth athings 23)))))
+
+(deftest get-int-test
+  (is (= 22 (get-int "22 points")))
+  (is (= 123 (get-int "123 comments"))))
+
+(deftest get-points-test
+  (is (= 187 (get-points (first subtexts))))
+  (is (= 0 (get-points (nth subtexts 23)))))
+
+
