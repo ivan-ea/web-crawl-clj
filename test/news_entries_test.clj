@@ -16,3 +16,15 @@
   (testing "The local html has news entries that consist of 30 'athings' and 30 'subtexts'"
     (is (= 30 (count athings)))
     (is (= 30 (count subtexts)))))
+
+(deftest content-1st-test
+  (is (= "Hello" (content-1st [{:tag :a :content "Hello" :attrs {}} {:other nil}])))
+  (is (= nil (content-1st {:a 1 :content 2}))))
+
+(deftest get-title-test
+  (is (= "macOS Containers v0.0.1" (get-title (first athings))))
+  (is (= "Svix (YC W21) Is Hiring a Technical Lead (US Remote)" (get-title (nth athings 23)))))
+
+(deftest get-rank-test
+  (is (= "1." (get-rank (first athings))))
+  (is (= "24." (get-rank (nth athings 23)))))
