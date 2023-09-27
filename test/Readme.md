@@ -1,0 +1,1 @@
+To ensure that the tests are reproducible, a saved version of the hackernews website is used for testing.
