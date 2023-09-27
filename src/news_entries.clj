@@ -51,8 +51,8 @@
   [subtext-html-parsed]
   (let [comments-str (-> subtext-html-parsed
                          :content content-1st butlast last :content first)]
-    (if (nil? comments-str) 0
-                            (get-int comments-str))))
+    (if (or (nil? comments-str) (= comments-str "discuss")) 0
+                                                            (get-int comments-str))))
 
 (defrecord NewsEntry [title rank points n-comments])
 
