@@ -40,3 +40,11 @@
 (deftest get-n-comments-test
   (is (= 119 (get-n-comments (first subtexts))))
   (is (= 0 (get-n-comments (nth subtexts 23)))))
+
+(deftest build-news-entry-test
+  (is (= (map->NewsEntry {:title "macOS Containers v0.0.1" :rank "1." :points 187 :n-comments 119})
+         (build-news-entry (first athings) (first subtexts))))
+  (is (= (map->NewsEntry {:title "Svix (YC W21) Is Hiring a Technical Lead (US Remote)"
+                          :rank "24." :points 0 :n-comments 0})
+         (build-news-entry (nth athings 23) (nth subtexts 23))))
+  )

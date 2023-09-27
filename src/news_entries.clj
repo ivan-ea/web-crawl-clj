@@ -54,6 +54,12 @@
     (if (nil? comments-str) 0
                             (get-int comments-str))))
 
-(defn html-entry-2-record
+(defrecord NewsEntry [title rank points n-comments])
+
+(defn build-news-entry
   "Selects the relevant information from the parsed html of 1 news entry. Generates a news record"
-  [athing-html-parsed subtext-html-parsed])
+  [athing-html-parsed, subtext-html-parsed]
+  (map->NewsEntry {:title      (get-title athing-html-parsed)
+                   :rank       (get-rank athing-html-parsed)
+                   :points     (get-points subtext-html-parsed)
+                   :n-comments (get-n-comments subtext-html-parsed)}))
