@@ -7,7 +7,7 @@
     ))
 
 (def hnews-local-filename "hnews_23-09-26.html")
-(def parsed-html (html/html-resource (fs/file "test" hnews-local-filename)))
+(def parsed-html (html/html-resource (fs/file "resources" hnews-local-filename)))
 
 (def athings (html/select parsed-html [:tr.athing]))
 (def subtexts (html/select parsed-html [:td.subtext]))
