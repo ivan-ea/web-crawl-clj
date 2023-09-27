@@ -9,7 +9,7 @@
   - Table cells (td) of class `subtext` have the *points* and he *number of comments*"
   (:require
     [clojure.string :as str]
-    [net.cgrand.enlive-html :as html] ; html templating library for clojure
+    [net.cgrand.enlive-html :as html]                       ; html templating library for clojure
     [clojure.inspector :as inspector]))
 
 (defn content-1st
@@ -28,6 +28,7 @@
   [athing-html-parsed]
   (first (content-1st (html/select athing-html-parsed [:td.title :span.rank]))))
 
+
 ; Points and comments are slightly more complicated, since there can be news-entries without them (ads)
 
 (defn get-int
@@ -41,9 +42,17 @@
   "Gets the points (as an int) from a parsed html 'subtext' element"
   [subtext-html-parsed]
   (let [points-str
-        (first (content-1st (html/select subtext-html-parsed [:td.subtext :span.subline :span.score])))]
+        (first (content-1st (html/select subtext-html-parsed [:span.subline :span.score])))]
     (if (nil? points-str) 0
                           (get-int points-str))))
+
+(defn get-n-comments
+  "Get the number of comments (as an int) from a parsed html 'subtext' element"
+  [subtext-html-parsed]
+  (let [comments-str (-> subtext-html-parsed
+                         :content content-1st butlast last :content first)]
+    (if (nil? comments-str) 0
+                            (get-int comments-str))))
 
 (defn html-entry-2-record
   "Selects the relevant information from the parsed html of 1 news entry. Generates a news record"

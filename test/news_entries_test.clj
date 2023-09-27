@@ -37,4 +37,6 @@
   (is (= 187 (get-points (first subtexts))))
   (is (= 0 (get-points (nth subtexts 23)))))
 
-
+(deftest get-n-comments-test
+  (is (= 119 (get-n-comments (first subtexts))))
+  (is (= 0 (get-n-comments (nth subtexts 23)))))
