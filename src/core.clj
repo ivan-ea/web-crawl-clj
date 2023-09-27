@@ -2,15 +2,20 @@
   (:require
     [filters]
     [clojure.test :refer [run-tests]]
-    [net.cgrand.enlive-html :as html] ; html templating library for clojure
+    [net.cgrand.enlive-html :as html]                       ; html templating library for clojure
     ))
+
+(def base-url "https://news.ycombinator.com/")
 
 
 
 (defn run-all-tests
   "Require and run all unit tests for this project"
   []
-  (println "run-all-tests: WIP"))
+  (let [namespaces-to-test ['news-entries-test 'filters-test]]
+    (apply require namespaces-to-test)
+    (println "Running tests for:" namespaces-to-test)
+    (apply run-tests namespaces-to-test)))
 
 (defn -main
   "Entry point to interact with the program from the command line"
