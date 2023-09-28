@@ -1,0 +1,118 @@
+name: Deploy results on another branch
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  clojure:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # It is important to install java before installing clojure tools which needs java
+      # exclusions: babashka, clj-kondo and cljstyle
+      - name: Prepare java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '8'
+
+      - name: Install clojure tools
+        uses: DeLaGuardo/setup-clojure@12.1
+        with:
+          # Install just one or all simultaneously
+          # The value must indicate a particular version of the tool, or use 'latest'
+          # to always provision the latest version
+          cli: 1.11.1.1165             # Clojure CLI based on tools.deps
+          
+      # Optional step:
+      - name: Cache clojure dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+            ~/.deps.clj
+          # List all files containing dependencies:
+          key: cljdeps-${{ hashFiles('deps.edn') }}
+          # key: cljdeps-${{ hashFiles('deps.edn', 'bb.edn') }}
+          # key: cljdeps-${{ hashFiles('project.clj') }}
+          # key: cljdeps-${{ hashFiles('build.boot') }}
+          restore-keys: cljdeps-
+
+      - name: Run some commands
+        run : |
+          pwd
+          echo ----
+          ls
+          echo ----
+          ls ..
+
+      - name: Execute unit tests
+        run: clojure -M -m core t
+
+      - name: Run web crawler on current version of the website
+        run: | 
+          clojure -M -m core 0
+          ls results
+
+      - name: Readme for results
+        working-directory: ./results
+        run: |
+          echo "# Results for the current version of Hacker News" | tee README.md
+          echo "## Results for filter 1" | tee -a README.md
+          echo \`\`\`\` | tee -a README.md
+          echo "> head hnews_current_filter_1.json" | tee -a README.md
+          head hnews_current_filter_1.json | tee -a README.md
+          echo \`\`\`\` | tee -a README.md
+          echo \`\`\`\` | tee -a README.md
+          echo "> tail hnews_current_filter_1.json" | tee -a README.md
+          tail hnews_current_filter_1.json | tee -a README.md
+          echo "" | tee -a README.md
+          echo \`\`\`\` | tee -a README.md
+          echo "## Results for filter 2" | tee -a README.md
+          echo \`\`\`\` | tee -a README.md
+          echo "> head hnews_current_filter_2.json" | tee -a README.md
+          head hnews_current_filter_1.json | tee -a README.md
+          echo \`\`\`\` | tee -a README.md
+          echo \`\`\`\` | tee -a README.md
+          echo "> tail hnews_current_filter_2.json" | tee -a README.md
+          tail hnews_current_filter_1.json | tee -a README.md
+          echo "" | tee -a README.md
+          echo \`\`\`\` | tee -a README.md
+      
+      - name: upload the results
+        uses: actions/upload-artifact@v3
+        with:
+          name: results
+          path: ./results
+          retention-days: 1
+
+  deploy:
+    needs: clojure
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/download-artifact@v3
+      with:
+        name: results
+        path: ./results
+
+    - name: exploratory commands
+      run: |
+        pwd
+        echo ----
+        ls
+        echo ----
+        ls ..
+
+    - name: Deploy test summaries to gh-pages 🚀
+      uses: JamesIves/github-pages-deploy-action@v4.2.3
+      with:
+        clean: false
+        branch: results
+        folder: ./results
+        
