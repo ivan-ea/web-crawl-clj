@@ -4,3 +4,6 @@ out/
 .cpcache/
 
 .nrepl-port
+
+# ignore results for 'current' website, because 'current' changes all the time
+results/hnews_current*
