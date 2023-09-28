@@ -1,5 +1,5 @@
 (ns config
-  "Constants for the program"
+  "Common constants and functions"
   (:require
     [babashka.fs :as fs]))
 
@@ -23,3 +23,13 @@
   [filter-name id]
   (fs/file "results" (str (get-in INPUTS [id :out-file-name]) "_" filter-name ".json")))
 
+(defmacro my-time
+  "Variation on clojure.core/time: https://github.com/clojure/clojure/blob/clojure-1.10.1/src/clj/clojure/core.clj#L3884
+  This macro returns a map with the time taken (duration) and the return value of the expression.
+  Useful when timing side effects, when further composition is not usually needed (but still possible)"
+  [expr]
+  `(let [start# (java.time.Instant/ofEpochMilli (System/currentTimeMillis))
+         ret# ~expr ;; evaluates the argument expression
+         end# (java.time.Instant/ofEpochMilli (System/currentTimeMillis))
+         duration# (java.time.Duration/between start# end#)]
+     (hash-map :duration duration# :iso (str duration#)  :return ret#)))
