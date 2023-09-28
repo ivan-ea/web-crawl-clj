@@ -1,13 +1,13 @@
 (ns news-entries-test
   (:require
+    [config :refer [INPUTS]]
     [news-entries :refer :all]
     [clojure.test :refer :all]
     [babashka.fs :as fs]
     [net.cgrand.enlive-html :as html]                       ; html templating library for clojure
     ))
 
-(def hnews-local-filename "hnews_23-09-26.html")
-(def parsed-html (html/html-resource (fs/file "resources" hnews-local-filename)))
+(def parsed-html (html/html-resource (get-in INPUTS ["1" :source])))
 
 (def athings (html/select parsed-html [:tr.athing]))
 (def subtexts (html/select parsed-html [:td.subtext]))
