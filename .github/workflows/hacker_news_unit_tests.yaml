@@ -1,7 +1,7 @@
 name: Run unit tests on push
 
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
+  workflow_dispatch:
   push:
     branches: [ "master" ]
 
@@ -60,4 +60,14 @@ jobs:
         run: | 
           clojure -M -m core 0
           ls results
-        
+      - name: Print results for filter 1
+        working-directory: ./results
+        run: |
+          echo "## Results for filter 1" 
+          cat hnews_current_filter_1.json
+
+      - name: Print results for filter 2
+        working-directory: ./results
+        run: |
+          echo "## Results for filter 2" 
+          cat hnews_current_filter_2.json
