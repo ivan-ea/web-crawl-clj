@@ -96,6 +96,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+      with:
+       lfs: true
     - uses: actions/download-artifact@v3
       with:
         name: results
@@ -109,7 +111,7 @@ jobs:
         echo ----
         ls ..
 
-    - name: Deploy test summaries to gh-pages 🚀
+    - name: Deploy results to gh-pages 🚀
       uses: JamesIves/github-pages-deploy-action@v4.2.3
       with:
         clean: false
