@@ -34,8 +34,9 @@
     (sort-by :points #(compare %2 %1) short-title-entries)))
 
 (defn save-filtered-results!
+  "Save the filtered news entries in json format"
   [news-entries filter-fn output-file]
   (let [filtered (filter-fn news-entries)
         parent-folder (fs/file-name (fs/parent (fs/absolutize output-file)))]
     (spit output-file (json/generate-string filtered {:pretty true}))
-    (printf "Written %d entries in %s/%s%n" (count filtered) parent-folder (fs/file-name output-file))))
+    (printf "Written %3d entries in %s/%s%n" (count filtered) parent-folder (fs/file-name output-file))))

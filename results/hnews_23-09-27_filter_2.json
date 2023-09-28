@@ -1,0 +1,61 @@
+[ {
+  "title" : "Mistral 7B",
+  "rank" : "5.",
+  "points" : 580,
+  "n-comments" : 380
+}, {
+  "title" : "Live near your friends",
+  "rank" : "12.",
+  "points" : 251,
+  "n-comments" : 217
+}, {
+  "title" : "Arena allocator tips and tricks",
+  "rank" : "20.",
+  "points" : 250,
+  "n-comments" : 76
+}, {
+  "title" : "Workers AI: Serverless GPU-powered inference",
+  "rank" : "18.",
+  "points" : 215,
+  "n-comments" : 64
+}, {
+  "title" : "First Impressions with GPT-4V(ision)",
+  "rank" : "9.",
+  "points" : 213,
+  "n-comments" : 190
+}, {
+  "title" : "Deno Queues",
+  "rank" : "4.",
+  "points" : 209,
+  "n-comments" : 91
+}, {
+  "title" : "Ray-Ban Meta Smart Glasses",
+  "rank" : "11.",
+  "points" : 96,
+  "n-comments" : 166
+}, {
+  "title" : "My Unhealthy Relationship with Keyboards",
+  "rank" : "25.",
+  "points" : 91,
+  "n-comments" : 318
+}, {
+  "title" : "OpenBSD PF versus FreeBSD PF",
+  "rank" : "1.",
+  "points" : 79,
+  "n-comments" : 35
+}, {
+  "title" : "The Tao of Programming (1987)",
+  "rank" : "2.",
+  "points" : 72,
+  "n-comments" : 35
+}, {
+  "title" : "Incorrect casual assumptions",
+  "rank" : "14.",
+  "points" : 54,
+  "n-comments" : 19
+}, {
+  "title" : "VLSI Physical Design",
+  "rank" : "26.",
+  "points" : 29,
+  "n-comments" : 16
+} ]
