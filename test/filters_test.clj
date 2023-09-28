@@ -3,7 +3,9 @@
     [news-entries]
     [news-entries-test :refer [athings subtexts]]
     [filters :refer :all]
-    [clojure.test :refer :all]))
+    [clojure.test :refer :all]
+    [babashka.fs :as fs]
+    [cheshire.core :as json]))
 
 (def all-news-entries (map news-entries/build-news-entry athings subtexts))
 
@@ -30,3 +32,15 @@
     (is (= 10 (count filtered)))
     (is (= 263 (:points (nth filtered 2))))
     (is (= 140 (:points (nth filtered 8))))))
+
+(deftest save-filtered-results!-test
+  (testing "Check that writting the results to file and parsing them back are the same as the originals"
+    (let [file-1 (fs/file "results" "hnews_23-09-26_filter_1.json")
+          file-2 (fs/file "results" "hnews_23-09-26_filter_2.json")
+          _ (mapv #(save-filtered-results! all-news-entries %1 %2) [filter-1 filter-2] [file-1 file-2])
+          filtered-1 (map #(into {} %) (filter-1 all-news-entries))
+          filtered-2 (map #(into {} %) (filter-2 all-news-entries))
+          saved-filter-1 (json/parse-string (slurp file-1) true)
+          saved-filter-2 (json/parse-string (slurp file-2) true)]
+      (is (= filtered-1 saved-filter-1))
+      (is (= filtered-2 saved-filter-2)))))

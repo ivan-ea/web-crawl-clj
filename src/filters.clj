@@ -1,7 +1,9 @@
 (ns filters
   "Filtering operations on the news entries"
   (:require
-    [clojure.string :as str]))
+    [clojure.string :as str]
+    [babashka.fs :as fs]
+    [cheshire.core :as json]))
 
 (def long-short-threshold "Number of words that make a title long or short" 5)
 
@@ -31,6 +33,9 @@
     ; for ascending order, simply remove the #(compare) fn
     (sort-by :points #(compare %2 %1) short-title-entries)))
 
-;todo print results on a json
 (defn save-filtered-results!
-  [filtered-news-entries filter-name])
+  [news-entries filter-fn output-file]
+  (let [filtered (filter-fn news-entries)
+        parent-folder (fs/file-name (fs/parent (fs/absolutize output-file)))]
+    (spit output-file (json/generate-string filtered {:pretty true}))
+    (printf "Written %d entries in %s/%s%n" (count filtered) parent-folder (fs/file-name output-file))))

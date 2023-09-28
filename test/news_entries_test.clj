@@ -2,10 +2,8 @@
   (:require
     [config :refer [INPUTS]]
     [news-entries :refer :all]
-    [clojure.test :refer :all]
-    [babashka.fs :as fs]
     [net.cgrand.enlive-html :as html]                       ; html templating library for clojure
-    ))
+    [clojure.test :refer :all]))
 
 (def parsed-html (html/html-resource (get-in INPUTS ["1" :source])))
 
@@ -46,5 +44,4 @@
          (build-news-entry (first athings) (first subtexts))))
   (is (= (map->NewsEntry {:title "Svix (YC W21) Is Hiring a Technical Lead (US Remote)"
                           :rank "24." :points 0 :n-comments 0})
-         (build-news-entry (nth athings 23) (nth subtexts 23))))
-  )
+         (build-news-entry (nth athings 23) (nth subtexts 23)))))
