@@ -4,8 +4,7 @@
     [filters]
     [config :refer :all]
     [net.cgrand.enlive-html :as html]                       ; html templating library for clojure
-    [clojure.test :refer [run-tests]]
-    [babashka.fs :as fs]))
+    [clojure.test :refer [run-tests]]))
 
 (defn run-all-tests
   "Require and run all unit tests for this project"
@@ -35,8 +34,8 @@
       operation-arg?
       (let [{all-news-entries :return parse-time :iso} (my-time (parse-html input-id))]
         (println "Performing operations on" (get-in INPUTS [input-id :description]))
-        (println "Time taken parsing html into news-entries:" parse-time)
-        (println "Sample entry:" (into {} (nth all-news-entries (int (/ MAX-ENTRIES 3)))))
+        (println "  Time taken parsing html into news-entries:" parse-time)
+        (println "  Sample entry:" (into {} (nth all-news-entries (int (/ MAX-ENTRIES 3)))))
         (mapv #(filters/save-filtered-results! all-news-entries %1 (gen-out-file %2 input-id))
               [filters/filter-1 filters/filter-2] ["filter_1" "filter_2"]))
       (= first-arg "t") (run-all-tests)

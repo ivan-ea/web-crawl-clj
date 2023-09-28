@@ -1,6 +1,7 @@
 (ns filters
   "Filtering operations on the news entries"
   (:require
+    [config :refer [my-time]]
     [clojure.string :as str]
     [babashka.fs :as fs]
     [cheshire.core :as json]))
@@ -36,7 +37,9 @@
 (defn save-filtered-results!
   "Save the filtered news entries in json format"
   [news-entries filter-fn output-file]
-  (let [filtered (filter-fn news-entries)
+  (let [{filtered :return time-filtering :iso} (my-time (filter-fn news-entries))
         parent-folder (fs/file-name (fs/parent (fs/absolutize output-file)))]
     (spit output-file (json/generate-string filtered {:pretty true}))
-    (printf "Written %3d entries in %s/%s%n" (count filtered) parent-folder (fs/file-name output-file))))
+    (println "Filtering the news entries")
+    (println "  Time taken filtering:" time-filtering)
+    (printf "  Written %2d entries in %s/%s%n" (count filtered) parent-folder (fs/file-name output-file))))

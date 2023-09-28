@@ -8,9 +8,8 @@
   - Table rows (tr) of class `athing` have the *title* and the *rank*
   - Table cells (td) of class `subtext` have the *points* and he *number of comments*"
   (:require
-    [clojure.string :as str]
     [net.cgrand.enlive-html :as html]                       ; html templating library for clojure
-    [clojure.inspector :as inspector]))
+    [clojure.string :as str]))
 
 (defn content-1st
   "Auxiliary function.
@@ -27,7 +26,6 @@
   "Gets the rank (as a string) from a parsed html 'athing' element"
   [athing-html-parsed]
   (first (content-1st (html/select athing-html-parsed [:td.title :span.rank]))))
-
 
 ; Points and comments are slightly more complicated, since there can be news-entries without them (ads)
 
