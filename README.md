@@ -44,7 +44,7 @@ Filtering the news entries
 The results are written in json format in the [`results`](./results) folder. 
 
 A [github action](https://github.com/ivan-ea/web-crawl-clj/actions/workflows/hacker_news_unit_tests.yaml) is implemented 
-to run on demand, and provide the results for the current version of the Hacker News website-
+to run on demand, and to provide **the results for the current version of the Hacker News website**.
 
 Below are the results for the operations on [a saved version of the Hacker News website, from the 26th of September 2023](resources/hnews_23-09-26.html).
 
