@@ -1,10 +1,17 @@
 # web-crawl-clj
 Web crawler for Hacker News in Clojure
 
-The news entries are filtered in 2 ways:
+The news entries are filtered in two ways:
 - Entries with more than five words in the title ordered by the number of comments.
 - Entries with less than or equal to five words in the title ordered by points.
 
+# Contents
+- [Usage](#usage)
+- [Results](#results)
+  - [Results for filter 1](#results-for-filter-1)
+  - [Results for filter 2](#results-for-filer-2)
+  - [Output of unit tests](#output-of-unit-tests)
+- [References](#references)
 
 # Usage
 Different scenarios can be tested, by changing the argument to the main function.
@@ -35,6 +42,10 @@ Filtering the news entries
 ````
 
 The results are written in json format in the [`results`](./results) folder. 
+
+A [github action](https://github.com/ivan-ea/web-crawl-clj/actions/workflows/hacker_news_unit_tests.yaml) is implemented 
+to run on demand, and provide the results for the current version of the Hacker News website-
+
 Below are the results for the operations on [a saved version of the Hacker News website, from the 26th of September 2023](resources/hnews_23-09-26.html).
 
 ## Results for filter 1
