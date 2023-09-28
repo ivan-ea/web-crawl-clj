@@ -3,7 +3,7 @@
   (:require
     [clojure.string :as str]))
 
-(def long-short-threshold "Number of words that make a title short or long" 5)
+(def long-short-threshold "Number of words that make a title long or short" 5)
 
 (defn num-words
   "Returns the number of words in a string"
@@ -20,18 +20,17 @@
 (defn filter-1
   "Entries with more than five words in the title ordered by the number of comments."
   [news-entries]
-  (let [with-long-titles (filter-long-short-titles news-entries :long)]
-    ; remove the compare fn for ascending order
-    (sort-by :n-comments #(compare %2 %1) with-long-titles)))
+  (let [long-title-entries (filter-long-short-titles news-entries :long)]
+    ; for ascending order, simply remove the #(compare) fn
+    (sort-by :n-comments #(compare %2 %1) long-title-entries)))
 
-
-
-; todo
 (defn filter-2
   "Entries with less than or equal to five words in the title ordered by points."
   [news-entries]
-  (println "filter-2: WIP"))
+  (let [short-title-entries (filter-long-short-titles news-entries :short)]
+    ; for ascending order, simply remove the #(compare) fn
+    (sort-by :points #(compare %2 %1) short-title-entries)))
 
 ;todo print results on a json
-(defn save-filtered-results
+(defn save-filtered-results!
   [filtered-news-entries filter-name])

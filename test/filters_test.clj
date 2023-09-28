@@ -24,3 +24,9 @@
     (is (= 20 (count filtered)))
     (is (= 171 (:n-comments (nth filtered 2))))
     (is (= 24 (:n-comments (nth filtered 16))))))
+
+(deftest filter-2-test
+  (let [filtered (filter-2 all-news-entries)]
+    (is (= 10 (count filtered)))
+    (is (= 263 (:points (nth filtered 2))))
+    (is (= 140 (:points (nth filtered 8))))))
