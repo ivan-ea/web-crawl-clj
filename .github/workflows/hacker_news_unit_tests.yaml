@@ -14,12 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: actions/checkout@v3
-        with:
-          repository: ivan-ea/web-crawl-clj
-          ref: master
-          path: web-crawl-clj
-
       # It is important to install java before installing clojure tools which needs java
       # exclusions: babashka, clj-kondo and cljstyle
       - name: Prepare java
@@ -60,11 +54,9 @@ jobs:
           ls ..
 
       - name: Run unit tests
-        working-directory: ./web-crawl-clj
         run: clojure -M -m core t
 
       - name: Run web crawler on current version of the website
-        working-directory: ./web-crawl-clj
         run: | 
           clojure -M -m core 0
           ls results
